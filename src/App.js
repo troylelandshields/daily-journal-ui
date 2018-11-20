@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import Header from './components/header/Header.js';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Route, Link } from 'react-router-dom';
+import PrivateRoute from './components/login/PrivateRoute';
+import NavBar from './components/nav/NavBar.js';
+import Entries from './components/pages/Entries.js';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   render() {
-    
-    return (
-      <Header>
 
-      </Header>
+    return (
+      <div>
+        <Grid>
+          <NavBar></NavBar>
+
+          <PrivateRoute path="/journal/:userId" component={Entries} />
+        </Grid>
+      </div>
     );
   }
 }
