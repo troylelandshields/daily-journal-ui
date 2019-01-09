@@ -1,7 +1,7 @@
 {
   "main.css": "/daily-journal-ui/static/css/main.6c4a5032.chunk.css",
-  "main.js": "/daily-journal-ui/static/js/main.0e0e2b4c.chunk.js",
-  "main.js.map": "/daily-journal-ui/static/js/main.0e0e2b4c.chunk.js.map",
+  "main.js": "/daily-journal-ui/static/js/main.a081ff85.chunk.js",
+  "main.js.map": "/daily-journal-ui/static/js/main.a081ff85.chunk.js.map",
   "static/css/1.8c3f2fdf.chunk.css": "/daily-journal-ui/static/css/1.8c3f2fdf.chunk.css",
   "static/js/1.6b4a7f01.chunk.js": "/daily-journal-ui/static/js/1.6b4a7f01.chunk.js",
   "static/js/1.6b4a7f01.chunk.js.map": "/daily-journal-ui/static/js/1.6b4a7f01.chunk.js.map",
@@ -11,6 +11,6 @@
   "static/media/logo.svg": "/daily-journal-ui/static/media/logo.5d5d9eef.svg",
   "static/css/main.6c4a5032.chunk.css.map": "/daily-journal-ui/static/css/main.6c4a5032.chunk.css.map",
   "index.html": "/daily-journal-ui/index.html",
-  "precache-manifest.78cdd986f6f2bc1250380a3ea2cd23eb.js": "/daily-journal-ui/precache-manifest.78cdd986f6f2bc1250380a3ea2cd23eb.js",
+  "precache-manifest.d9ca1fddb79a77933200e11617dca2a1.js": "/daily-journal-ui/precache-manifest.d9ca1fddb79a77933200e11617dca2a1.js",
   "service-worker.js": "/daily-journal-ui/service-worker.js"
 }
