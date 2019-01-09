@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import { Row, Col } from 'react-bootstrap';
 // import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
+import config from '../../services/config.js';
 
 class Settings extends Component {
 	constructor(props) {
@@ -15,7 +16,7 @@ class Settings extends Component {
 	}
 
 	componentDidMount() {
-		axios.get(`http://localhost:3000/users/${this.props.match.params.userId}/`)
+		axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/`)
 			.then((resp) => {
 				var phoneNumber = resp.data.phone_number;
 				this.setState({
@@ -35,7 +36,7 @@ class Settings extends Component {
 	}
     
 	handleSubmit = (event) => {
-		axios.put(`http://localhost:3000/users/${this.props.match.params.userId}/`, {
+		axios.put(`${config.apiHost}/users/${this.props.match.params.userId}/`, {
 			"phone_number": this.state.settings.phoneNumber
 		}).then((resp) => {
 			alert("successfully updated your phone number");
