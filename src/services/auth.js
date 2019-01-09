@@ -22,9 +22,13 @@ const auth = {
         }
     },
     signout(cb) {
-      this.isAuthenticated = false
+        console.log("bye now!");
+        auth.isAuthenticated = false;
+        auth.user = null;
+        window.localStorage.removeItem("token");
 
-      if (cb) cb();
+
+        if (cb) cb();
     }
 }
 

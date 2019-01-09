@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import { Row, Col } from 'react-bootstrap';
-// import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 
 function Entry(props) {
@@ -21,25 +21,52 @@ class Entries extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			entries: []
+			entries: [],
+			hasMore: true
 		};
 	}
 
-	componentDidMount() {
-		axios.get(`http://localhost:3000/users/${this.props.match.params.userId}/entries/`)
+	loadEntries = (pageNum) => {
+		var perPage = 20;
+		axios.get(`http://localhost:3000/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}`)
 			.then((resp) => {
+				var entries = this.state.entries;
+				var loadedEntries = resp.data;
+
+				loadedEntries.map((entry) => {
+					entries.push(entry);
+				});
+
+				var hasMore = true;
+				if (loadedEntries.length < perPage) {
+					hasMore = false;
+				}
+
 				this.setState({
-					entries: resp.data
+					entries: entries,
+					hasMore: hasMore
 				});
 			});
 	}
 
 	render() {
+		var items = [];
+
+		this.state.entries.map(entry => {
+			items.push(<Entry key={entry.id} data={entry}></Entry>);
+		})
+
 
 		return (
-			this.state.entries.map(entry => (
-				<Entry key={entry.id} data={entry}></Entry>
-			))
+			<InfiniteScroll
+				pageStart={0}
+				loadMore={this.loadEntries.bind(this)}
+				hasMore={this.state.hasMore}
+				loader={<div className="loader" key={0}>Loading ...</div>}
+			>
+				{items}
+			</InfiniteScroll>
+
 		);
 	}
 }
