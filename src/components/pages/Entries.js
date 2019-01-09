@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import { Row, Col } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
+import config from '../../services/config.js';
 
 function Entry(props) {
 	return (
@@ -28,7 +29,7 @@ class Entries extends Component {
 
 	loadEntries = (pageNum) => {
 		var perPage = 20;
-		axios.get(`http://localhost:3000/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}`)
+		axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}`)
 			.then((resp) => {
 				var entries = this.state.entries;
 				var loadedEntries = resp.data;

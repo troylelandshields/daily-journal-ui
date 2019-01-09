@@ -1,13 +1,18 @@
 import axios from 'axios';
+import config from './config.js';
+
+axios.defaults.headers.common['Accept'] = "application/json";
 
 const auth = {
     isAuthenticated: false,
     authenticate(googleToken, cb) {
         axios.defaults.headers.common['Authorization'] = "Bearer " + googleToken;
+
         window.localStorage.setItem("token", googleToken);
 
-		axios.get("http://localhost:3000/auth/google")
+		axios.get(`${config.apiHost}/auth/google`)
 		.then((authResponse) => {
+            debugger;
             auth.isAuthenticated = true
             auth.user = authResponse.data;
 
@@ -26,7 +31,6 @@ const auth = {
         auth.isAuthenticated = false;
         auth.user = null;
         window.localStorage.removeItem("token");
-
 
         if (cb) cb();
     }
