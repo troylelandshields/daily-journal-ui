@@ -8,23 +8,23 @@ self.__precacheManifest = [
     "url": "/daily-journal-ui/static/js/runtime~main.bdc03da2.js"
   },
   {
-    "revision": "a081ff858b17d2b526f7",
-    "url": "/daily-journal-ui/static/js/main.a081ff85.chunk.js"
+    "revision": "e90753c4ead4378763e2",
+    "url": "/daily-journal-ui/static/js/main.e90753c4.chunk.js"
   },
   {
-    "revision": "6b4a7f01b422a33e647a",
-    "url": "/daily-journal-ui/static/js/1.6b4a7f01.chunk.js"
+    "revision": "00540d9aac88f3989bcc",
+    "url": "/daily-journal-ui/static/js/1.00540d9a.chunk.js"
   },
   {
-    "revision": "a081ff858b17d2b526f7",
+    "revision": "e90753c4ead4378763e2",
     "url": "/daily-journal-ui/static/css/main.6c4a5032.chunk.css"
   },
   {
-    "revision": "6b4a7f01b422a33e647a",
+    "revision": "00540d9aac88f3989bcc",
     "url": "/daily-journal-ui/static/css/1.8c3f2fdf.chunk.css"
   },
   {
-    "revision": "30237031781eb31e35283bcf5333c296",
+    "revision": "58ef6ab65d24e0028cda089e29215c51",
     "url": "/daily-journal-ui/index.html"
   }
 ];
