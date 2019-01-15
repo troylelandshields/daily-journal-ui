@@ -12,7 +12,6 @@ const auth = {
 
 		axios.get(`${config.apiHost}/auth/google`)
 		.then((authResponse) => {
-            debugger;
             auth.isAuthenticated = true
             auth.user = authResponse.data;
 

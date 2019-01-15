@@ -4,6 +4,8 @@ import { Row, Col } from 'react-bootstrap';
 // import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
 import config from '../../services/config.js';
+import CheckoutForm from './stripe/CheckoutForm.js';
+import {Elements} from 'react-stripe-elements';
 
 class Settings extends Component {
 	constructor(props) {
@@ -46,15 +48,25 @@ class Settings extends Component {
 
 	render() {
 		return (
-			<Row>
-				<Col>
-					<form>
-						<label>Phone Number</label>
-						<input type='text' value={this.state.settings.phoneNumber} onChange={this.handleChange} name='phone_number' /> 
-						<input type='submit' value='Submit' onClick={this.handleSubmit}/>
-					</form>
-				</Col>
-			</Row>
+			<div>
+				<Row>
+					<Col>
+						<form>
+							<label>Phone Number</label>
+							<input type='text' value={this.state.settings.phoneNumber} onChange={this.handleChange} name='phone_number' /> 
+							<input type='submit' value='Submit' onClick={this.handleSubmit}/>
+						</form>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col>
+						<Elements>
+							<CheckoutForm userId={this.props.match.params.userId} />
+						</Elements>
+					</Col>
+				</Row>
+			</div>
 		);
 	}
 }
