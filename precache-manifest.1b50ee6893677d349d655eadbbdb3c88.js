@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/daily-journal-ui/static/css/1.29314972.chunk.css"
   },
   {
-    "revision": "5d865e8e325340876f114d07e0869fe8",
+    "revision": "5aded61705445af98e94fa2634e25ecd",
     "url": "/daily-journal-ui/index.html"
   }
 ];
