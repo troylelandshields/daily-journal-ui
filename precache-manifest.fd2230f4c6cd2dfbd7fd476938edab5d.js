@@ -8,15 +8,15 @@ self.__precacheManifest = [
     "url": "/daily-journal-ui/static/js/runtime~main.bdc03da2.js"
   },
   {
-    "revision": "27a02627f868c4ae9b77",
-    "url": "/daily-journal-ui/static/js/main.27a02627.chunk.js"
+    "revision": "a95e3c49aca1367d22fd",
+    "url": "/daily-journal-ui/static/js/main.a95e3c49.chunk.js"
   },
   {
     "revision": "1c87d28f5a23ea8660ab",
     "url": "/daily-journal-ui/static/js/1.1c87d28f.chunk.js"
   },
   {
-    "revision": "27a02627f868c4ae9b77",
+    "revision": "a95e3c49aca1367d22fd",
     "url": "/daily-journal-ui/static/css/main.0b1eb257.chunk.css"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/daily-journal-ui/static/css/1.29314972.chunk.css"
   },
   {
-    "revision": "5aded61705445af98e94fa2634e25ecd",
+    "revision": "19cb59c02f19b0274d77ac0fdd6e84e1",
     "url": "/daily-journal-ui/index.html"
   }
 ];
