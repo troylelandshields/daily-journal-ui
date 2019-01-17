@@ -5,6 +5,12 @@ axios.defaults.headers.common['Accept'] = "application/json";
 
 const auth = {
     isAuthenticated: false,
+    isSubscribed() {
+        return auth.user.subscription_id != null ;
+    },
+    isSetUp() {
+        return auth.user.subscription_id != null && auth.user.phone_number != null;
+    },
     authenticate(googleToken, cb) {
         axios.defaults.headers.common['Authorization'] = "Bearer " + googleToken;
 

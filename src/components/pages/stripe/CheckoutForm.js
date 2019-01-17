@@ -17,6 +17,9 @@ class CheckoutForm extends Component {
       "card_token": token.id
     }).then((resp) => {
       console.log("cool");
+      if (this.props.cb) {
+        this.props.cb();
+      }
     });
 
   }
@@ -24,9 +27,9 @@ class CheckoutForm extends Component {
   render() {
     return (
       <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
+        <p>Subscribe for <strong>$1</strong> per month, cancel anytime</p>
         <CardElement />
-        <button onClick={this.submit}>Send</button>
+        <button onClick={this.submit}>Subscribe for $1</button>
       </div>
     );
   }
