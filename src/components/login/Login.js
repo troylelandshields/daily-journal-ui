@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import {
-	Route,
-	Link,
-	Redirect,
-	BrowserRouter as Router,
+	Redirect
   } from 'react-router-dom';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import auth from '../../services/auth.js';
 
@@ -32,9 +29,6 @@ class Login extends Component {
 	}
 
 	render() {
-		
-
-		// const { from } = this.props.location.state || { from: { pathname: "/" } };
 		const from = "/";
 		const { redirectToPreviousRoute } = this.state;
 	

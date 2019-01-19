@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import Login from '../login/Login.js';
 import auth from '../../services/auth.js'

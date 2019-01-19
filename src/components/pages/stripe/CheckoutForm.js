@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {CardElement, injectStripe} from 'react-stripe-elements';
-import auth from '../../../services/auth';
 import config from '../../../services/config.js';
 import axios from 'axios';
 

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { Route, Link, Redirect } from 'react-router-dom';
+import { Grid } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import {StripeProvider} from 'react-stripe-elements';
 
 import PrivateRoute from './components/login/PrivateRoute';
 import NavBar from './components/nav/NavBar.js';
 import Entries from './components/pages/Entries.js';
 import Settings from './components/pages/Settings.js';
-import logo from './logo.svg';
 import './App.css';
 import config from './services/config';
 import auth from './services/auth';

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Moment from 'react-moment';
 import { Row, Col } from 'react-bootstrap';
-// import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
 import config from '../../services/config.js';
 import CheckoutForm from './stripe/CheckoutForm.js';

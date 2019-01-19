@@ -34,7 +34,7 @@ class Entries extends Component {
 				var entries = this.state.entries;
 				var loadedEntries = resp.data;
 
-				loadedEntries.map((entry) => {
+				loadedEntries.forEach((entry) => {
 					entries.push(entry);
 				});
 
@@ -53,7 +53,7 @@ class Entries extends Component {
 	render() {
 		var items = [];
 
-		this.state.entries.map(entry => {
+		this.state.entries.forEach(entry => {
 			items.push(<Entry key={entry.id} data={entry}></Entry>);
 		})
 
