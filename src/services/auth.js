@@ -13,6 +13,7 @@ const auth = {
     },
     authenticate(googleToken, cb) {
         axios.defaults.headers.common['Authorization'] = "Bearer " + googleToken;
+        axios.defaults.headers.common['X-Dumb-Authorization'] = "Bearer " + googleToken;
 
         window.localStorage.setItem("token", googleToken);
 
