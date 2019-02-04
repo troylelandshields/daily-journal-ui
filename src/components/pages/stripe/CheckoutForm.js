@@ -26,9 +26,9 @@ class CheckoutForm extends Component {
   render() {
     return (
       <div className="checkout">
-        <p>Subscribe for <strong>$1</strong> per month, cancel anytime</p>
+        <p>Subscribe for <strong>$1.33</strong> per month with a 7-day free trial, cancel anytime</p>
         <CardElement />
-        <button onClick={this.submit}>Subscribe for $1</button>
+        <button onClick={this.submit}>Subscribe for $1.33</button>
       </div>
     );
   }
