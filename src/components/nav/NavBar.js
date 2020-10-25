@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import Login from '../login/Login.js';
 import auth from '../../services/auth.js'
@@ -33,9 +33,9 @@ class Logout extends Component {
 		return (
             <div>
                 {this.renderRedirect()}
-                <Button onClick={this.logout}>
+                <NavDropdown.Item onSelect={this.logout}>
                     Logout
-                </Button>
+                </NavDropdown.Item>
             </div>
 		);
 	}
@@ -44,26 +44,17 @@ class Logout extends Component {
 
 function NavBar() {
     return (
-        <Row>
-            <Col>
-                { auth.isAuthenticated 
-                    ? <Link to={`/journal/${auth.user.id}`}>Journal</Link> 
-                    : null }
-            </Col>
-            <Col>
-                { auth.isAuthenticated 
-                    ? <Link to={`/settings/${auth.user.id}`}>Settings</Link> 
-                    : null }
-            </Col>
-            <Col>
-                { auth.isAuthenticated 
-                    ? <Logout></Logout> 
-                    : null }
-            </Col>
-            <Col>
-                <Login></Login>
-            </Col>
-        </Row>
+        <Navbar sticky="top">
+            { auth.isAuthenticated 
+            ? <Nav defaultActiveKey="journal">
+                <Nav.Link as={Link} eventKey="journal" to={`/journal/${auth.user.id}`}>Journal</Nav.Link> 
+                <Nav.Link as={Link} eventKey="settings" to={`/settings/${auth.user.id}`}>Settings</Nav.Link> 
+                <NavDropdown title={auth.user.first_name} id="user-dropdown">
+                    <Logout></Logout>
+                </NavDropdown>
+            </Nav>
+            : <Login></Login> }
+        </Navbar>
     )
 }
 

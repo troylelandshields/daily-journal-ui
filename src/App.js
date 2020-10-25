@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import {StripeProvider} from 'react-stripe-elements';
 
@@ -15,9 +15,9 @@ class App extends Component {
   render() {
 
     return (
-      <div>
+      <Container>
         <StripeProvider apiKey={config.stripeKey}>
-          <Grid>
+          <div>
               <NavBar></NavBar>
 
               <PrivateRoute path="/journal/:userId" component={Entries} />
@@ -26,11 +26,10 @@ class App extends Component {
               { auth.isAuthenticated && auth.isSetUp() ? <Redirect to={`/journal/${auth.user.id}`} /> : 
                 auth.isAuthenticated && !auth.isSetUp() ? <Redirect to={`/settings/${auth.user.id}`} /> : 
                 null } 
-
-          </Grid>
+          </div>
 
         </StripeProvider>
-      </div>
+      </Container>
     );
   }
 }
