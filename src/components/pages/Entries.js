@@ -1,11 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import Radium from 'radium';
 import Moment from 'react-moment';
 import moment from 'moment';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, FormText } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import config from '../../services/config.js';
 import { CoffeeLoading } from 'react-loadingg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+
+function EntryToolbox(props) {
+	let toolboxStyle = {
+		position: "relative",
+		left:"4px",
+		top: "4px",
+		color: `rgba(${props.color.r},${props.color.g},${props.color.b},0.1)`,
+		
+		":hover": {
+			color: `rgba(${props.color.r},${props.color.g},${props.color.b},0.4)`,
+		}
+	}
+	
+	let toolStyle = {
+		cursor: "pointer",
+		":hover": {
+			color: `rgba(${props.color.r},${props.color.g},${props.color.b},1)`,
+		}
+	}
+
+	let handleDelete = async () => {
+		let resp = await axios.delete(props.entryUrl);
+		console.log("Finished delete", resp.status);
+	};
+
+	return (
+		<div style={toolboxStyle}>
+			<div>
+				<div key={`edit${props.entryId}`} className="edit" style={toolStyle}>	
+					<a><FontAwesomeIcon icon={faEdit}/></a>
+				</div>
+				<div key={`trash${props.entryId}`} className="trash" style={toolStyle}>
+					<a onClick={handleDelete}><FontAwesomeIcon icon={faTrash}/></a>
+				</div>
+			</div>
+		</div>  
+	);
+}
+
+EntryToolbox = Radium(EntryToolbox);
+
 
 function Entry(props) {
 	let gradient = `linear-gradient(0deg, rgba(${props.endColor.r},${props.endColor.g},${props.endColor.b},1) 0%, rgba(${props.startColor.r},${props.startColor.g},${props.startColor.b},1) 100%)`;
@@ -42,6 +87,7 @@ function Entry(props) {
 		borderBottomRightRadius: bottomCornerRadius,
 		opacity:"70%"
 	};
+
 	
 	return (
 		<Row>
@@ -51,7 +97,8 @@ function Entry(props) {
 			</Col>  
 			<Col style={entryColStyle}>
 				<div style={entryStyle}>{props.data.entry}</div>
-			</Col>  
+			</Col>
+			<EntryToolbox entryId={props.data.id} entryUrl={props.data.selfUrl} color={props.startColor}></EntryToolbox>
 		</Row>
 	)
 }
@@ -94,6 +141,8 @@ class Entries extends Component {
 				
 				let currentIdx = 0;
 				loadedEntries.forEach((entry) => {
+					entry.selfUrl = `${config.apiHost}/users/${this.props.match.params.userId}/entries/${entry.id}`;
+
 					let endColor = {
 						r: randDiff(startColor.r), g: randDiff(startColor.g), b: randDiff(startColor.b)
 					};

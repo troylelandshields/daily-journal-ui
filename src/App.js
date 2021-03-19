@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium from 'radium';
 import { Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import {StripeProvider} from 'react-stripe-elements';
@@ -11,6 +12,7 @@ import './App.css';
 import config from './services/config';
 import auth from './services/auth';
 
+// Component = Radium(Component);
 class App extends Component {
   render() {
 
@@ -34,4 +36,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
