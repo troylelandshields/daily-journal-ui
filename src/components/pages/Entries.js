@@ -8,7 +8,7 @@ import axios from 'axios';
 import config from '../../services/config.js';
 import { CoffeeLoading } from 'react-loadingg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 
 
 function EntryToolbox(props) {
@@ -31,8 +31,15 @@ function EntryToolbox(props) {
 	}
 
 	let handleDelete = async () => {
-		let resp = await axios.delete(props.entryUrl);
-		console.log("Finished delete", resp.status);
+		try {
+			await axios.delete(props.entryUrl);
+			if (props.handleDelete) {
+				props.handleDelete(props.entryId);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+		
 	};
 
 	return (
@@ -53,6 +60,8 @@ EntryToolbox = Radium(EntryToolbox);
 
 
 function Entry(props) {
+	const [deleted, setDeleted] = useState(false);
+
 	let gradient = `linear-gradient(0deg, rgba(${props.endColor.r},${props.endColor.g},${props.endColor.b},1) 0%, rgba(${props.startColor.r},${props.startColor.g},${props.startColor.b},1) 100%)`;
 	
 	let topCornerRadius = props.periodStart ? "15px" : "0px";
@@ -90,16 +99,17 @@ function Entry(props) {
 
 	
 	return (
-		<Row>
+		!deleted ? <Row>
 			<Col md={2} mdOffset={2} sm={2} smOffset={2} style={dateInfoStyle}>
 				<Row><Col><Moment format="YYYY/MM/DD">{props.data.date}</Moment></Col></Row>
+				<Row><Col><Moment style={{opacity: "50%"}} format="dddd">{props.data.date}</Moment></Col></Row>
 				<Row><Col><Moment style={{opacity: "50%"}} fromNow>{props.data.date}</Moment></Col></Row>
 			</Col>  
 			<Col style={entryColStyle}>
 				<div style={entryStyle}>{props.data.entry}</div>
 			</Col>
-			<EntryToolbox entryId={props.data.id} entryUrl={props.data.selfUrl} color={props.startColor}></EntryToolbox>
-		</Row>
+			<EntryToolbox entryId={props.data.id} entryUrl={props.data.selfUrl} color={props.startColor} handleDelete={()=> {setDeleted(true)}}></EntryToolbox>
+		</Row> : null 
 	)
 }
 
@@ -107,6 +117,7 @@ class Entries extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isDesc: this.props.match.params.order === "ASC" ? false : true,
 			entries: [],
 			hasMore: true,
 			color: {
@@ -119,7 +130,8 @@ class Entries extends Component {
 
 	loadEntries = (pageNum) => {
 		var perPage = 20;
-		axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}`)	
+		var order = this.state.isDesc?"DESC":"ASC";
+		axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}&order=${order}`)	
 			.then((resp) => {
 				var entries = this.state.entries;
 				var loadedEntries = resp.data;
@@ -188,20 +200,22 @@ class Entries extends Component {
 
 		this.state.entries.forEach(entry => {
 			items.push(<Entry startColor={entry.startColor} endColor={entry.endColor} key={entry.id} periodStart={entry.periodStart} periodEnd={entry.periodEnd} data={entry}></Entry>);
-		})
-
+		});
 
 		return (
-			<div>
-			{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
-			<InfiniteScroll
-				pageStart={0}
-				loadMore={this.loadEntries.bind(this)}
-				hasMore={this.state.hasMore}
-				loader={this.state.entries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
-			>
-				{items}
-			</InfiniteScroll>
+			<div key={this.state.isDesc}>
+				{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
+				<a style={{position: 'relative', left:'50%', marginBottom: "10px"}} onClick={()=>this.setState({isDesc: !this.state.isDesc, entries: [], hasMore:true})}>
+					{this.state.isDesc ? <FontAwesomeIcon icon={faSortDown}/> : <FontAwesomeIcon icon={faSortUp}/> }
+				</a>
+				<InfiniteScroll
+					pageStart={0}
+					loadMore={this.loadEntries.bind(this)}
+					hasMore={this.state.hasMore}
+					loader={this.state.entries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
+				>
+					{items}
+				</InfiniteScroll>
 			</div>
 		);
 	}

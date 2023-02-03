@@ -15,7 +15,6 @@ class CheckoutForm extends Component {
     axios.post(`${config.apiHost}/users/${this.props.userId}/subscription`, {
       "card_token": token.id
     }).then((resp) => {
-      console.log("cool");
       if (this.props.cb) {
         this.props.cb();
       }
@@ -26,9 +25,9 @@ class CheckoutForm extends Component {
   render() {
     return (
       <div className="checkout">
-        <p>Subscribe for <strong>$1.33</strong> per month with a 7-day free trial, cancel anytime</p>
+        <p>Subscribe for <strong>$24</strong> per year with a 14-day free trial, cancel anytime</p>
         <CardElement />
-        <button onClick={this.submit}>Subscribe for $1.33</button>
+        <button onClick={this.submit}>Subscribe for $24</button>
       </div>
     );
   }

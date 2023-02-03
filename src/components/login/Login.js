@@ -8,12 +8,17 @@ import auth from '../../services/auth.js';
 
 class Login extends Component {
 	state = {
-		redirectToPreviousRoute: false
+		dst: "",
+		query: ""
 	};
 
 	responseGoogle = (response) => {
 		auth.authenticate(response.tokenId, () => {
-			this.setState({ redirectToPreviousRoute: true });
+			if (auth.isAuthenticated && auth.isSetUp()) {
+				this.setState({ dst: `/journal/${auth.user.id}` });
+			} else if (auth.isAuthenticated && !auth.isSetUp()) {
+				this.setState({ dst: `/settings/${auth.user.id}` });
+			}
 		})
 	}
 
@@ -24,16 +29,21 @@ class Login extends Component {
 
 	componentWillMount = () => {
 		auth.autoLogin(() => {
-			this.setState({ redirectToPreviousRoute: true });
+			if (auth.isAuthenticated && auth.isSetUp()) {
+				debugger
+				this.setState({ dst: `/journal/${auth.user.id}`, query: window.location.query });
+			} else if (auth.isAuthenticated && !auth.isSetUp()) {
+				this.setState({ dst: `/settings/${auth.user.id}`, query: window.location.query });
+			}
 		})
 	}
 
 	render() {
-		const from = "/";
-		const { redirectToPreviousRoute } = this.state;
+		const { dst, query } = this.state;
 	
-		if (redirectToPreviousRoute) {
-		  return <Redirect to={from} />;
+		if (dst && window.location.pathname !== dst) {
+			debugger;
+		  return <Redirect to={{pathname:dst, query:query}} />;
 		}
 
 		return (

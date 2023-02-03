@@ -47,6 +47,7 @@ function NavBar() {
         <Navbar sticky="top">
             { auth.isAuthenticated 
             ? <Nav defaultActiveKey="journal">
+                <Nav.Link as={Link} eventKey="summaries" to={`/summaries/${auth.user.id}`}>Summaries</Nav.Link> 
                 <Nav.Link as={Link} eventKey="journal" to={`/journal/${auth.user.id}`}>Journal</Nav.Link> 
                 <Nav.Link as={Link} eventKey="settings" to={`/settings/${auth.user.id}`}>Settings</Nav.Link> 
                 <NavDropdown title={auth.user.first_name} id="user-dropdown">
