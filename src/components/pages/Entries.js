@@ -45,9 +45,9 @@ function EntryToolbox(props) {
 	return (
 		<div style={toolboxStyle}>
 			<div>
-				<div key={`edit${props.entryId}`} className="edit" style={toolStyle}>	
+				{/* <div key={`edit${props.entryId}`} className="edit" style={toolStyle}>	
 					<a><FontAwesomeIcon icon={faEdit}/></a>
-				</div>
+				</div> */}
 				<div key={`trash${props.entryId}`} className="trash" style={toolStyle}>
 					<a onClick={handleDelete}><FontAwesomeIcon icon={faTrash}/></a>
 				</div>
