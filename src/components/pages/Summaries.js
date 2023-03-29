@@ -79,10 +79,12 @@ function Summary(props) {
 class Summaries extends Component {
 	constructor(props) {
 		super(props);
+		this.isPublic = this.props.location.pathname.includes("public");
+		this.url = !this.isPublic ? `${config.apiHost}/users/${this.props.match.params.userId}/summaries/` : `${config.apiHost}/public/${this.props.match.params.userId}/summaries/${this.props.match.params.style}`;
+		
 		this.state = {
 			summaries: [],
 			isDesc: this.props.match.params.order === "ASC" ? false : true,
-			style: "overview",
 			hasMore: true,
 			color: {
 				r: 128,
@@ -92,10 +94,16 @@ class Summaries extends Component {
 		};
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.match.params.style !== this.props.match.params.style) {
+		  	this.setState({summaries: [], hasMore: true});
+		}
+	}
+
 	loadSummaries = async (pageNum) => {
 		var perPage = 1;
 		var order = this.state.isDesc?"DESC":"ASC";
-		let resp = await axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/summaries/?page=${pageNum}&per_page=${perPage}&style=${this.state.style}&order=${order}`)	
+		let resp = await axios.get(`${this.url}?page=${pageNum}&per_page=${perPage}&style=${this.props.match.params.style}&order=${order}`)	
 		
 		var summaries = this.state.summaries;
 		var loadedSummaries = resp.data;
@@ -145,34 +153,23 @@ class Summaries extends Component {
 		var items = [];
 
 		this.state.summaries.forEach(eg => {
-			items.push(<Summary startColor={eg.startColor} endColor={eg.endColor} key={eg.start_date} periodStart={true} periodEnd={true} data={eg}></Summary>);
+			items.push(<Summary startColor={eg.startColor} endColor={eg.endColor} key={this.props.match.params.style + eg.start_date + eg.id} periodStart={true} periodEnd={true} data={eg}></Summary>);
 		});
 
 		return (
-			<div key={this.state.style + this.state.isDesc}>
-			{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
-			<a style={{position: 'relative', left:'50%', marginBottom: "10px"}} onClick={()=>this.setState({isDesc: !this.state.isDesc, summaries: [], hasMore:true})}>
+			<div key={this.props.match.params.style + this.state.isDesc}>
+				{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
+				<a style={{position: 'relative', left:'50%', marginBottom: "10px"}} onClick={()=>this.setState({isDesc: !this.state.isDesc, summaries: [], hasMore:true})}>
 					{this.state.isDesc ? <FontAwesomeIcon icon={faSortDown}/> : <FontAwesomeIcon icon={faSortUp}/> }
 				</a>
-			<select value={this.state.style} onChange={(v) => {
-				this.setState({
-					summaries: [],
-					hasMore: true,
-					style: v.target.value
-				});
-			}}>
-				<option value="default">Overview</option>
-				<option value="haiku">Haikus</option>
-				<option value="poetry">Poetry</option>
-			</select>
-			<InfiniteScroll
-				pageStart={0}
-				loadMore={this.loadSummaries.bind(this)}
-				hasMore={this.state.hasMore}
-				loader={this.state.summaries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
-			>
-				{items}
-			</InfiniteScroll>
+				<InfiniteScroll
+					pageStart={0}
+					loadMore={this.loadSummaries.bind(this)}
+					hasMore={this.state.hasMore}
+					loader={this.state.summaries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
+				>
+					{items}
+				</InfiniteScroll>
 			</div>
 		);
 	}

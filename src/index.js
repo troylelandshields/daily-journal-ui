@@ -2,12 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import './index.css';
 import App from './App';
+import auth from './services/auth';
 
-ReactDOM.render(
+auth.autoLogin(() => ReactDOM.render(
     <Router>
         <App/>
     </Router>
-, document.getElementById('root'));
+, document.getElementById('root')));

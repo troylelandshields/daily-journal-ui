@@ -24,12 +24,15 @@ const auth = {
 
             if (cb) cb();
 		});
-        
     },
     autoLogin(cb) {
         const storedToken = window.localStorage.getItem("token");
         if (storedToken) {
             auth.authenticate(storedToken, cb);
+        } else {
+            if (cb) {
+                cb();
+            }
         }
     },
     signout(cb) {

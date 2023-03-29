@@ -108,7 +108,7 @@ function Entry(props) {
 			<Col style={entryColStyle}>
 				<div style={entryStyle}>{props.data.entry}</div>
 			</Col>
-			<EntryToolbox entryId={props.data.id} entryUrl={props.data.selfUrl} color={props.startColor} handleDelete={()=> {setDeleted(true)}}></EntryToolbox>
+			{ !props.isPublic && <EntryToolbox entryId={props.data.id} entryUrl={props.data.selfUrl} color={props.startColor} handleDelete={()=> {setDeleted(true)}}></EntryToolbox> }
 		</Row> : null 
 	)
 }
@@ -116,6 +116,8 @@ function Entry(props) {
 class Entries extends Component {
 	constructor(props) {
 		super(props);
+		this.isPublic = this.props.location.pathname.includes("public");
+		this.url = !this.isPublic ? `${config.apiHost}/users/${this.props.match.params.userId}/entries/` : `${config.apiHost}/public/${this.props.match.params.userId}/entries/`;
 		this.state = {
 			isDesc: this.props.match.params.order === "ASC" ? false : true,
 			entries: [],
@@ -131,7 +133,7 @@ class Entries extends Component {
 	loadEntries = (pageNum) => {
 		var perPage = 20;
 		var order = this.state.isDesc?"DESC":"ASC";
-		axios.get(`${config.apiHost}/users/${this.props.match.params.userId}/entries/?page=${pageNum}&per_page=${perPage}&order=${order}`)	
+		axios.get(`${this.url}?page=${pageNum}&per_page=${perPage}&order=${order}`)	
 			.then((resp) => {
 				var entries = this.state.entries;
 				var loadedEntries = resp.data;
@@ -199,7 +201,7 @@ class Entries extends Component {
 		var items = [];
 
 		this.state.entries.forEach(entry => {
-			items.push(<Entry startColor={entry.startColor} endColor={entry.endColor} key={entry.id} periodStart={entry.periodStart} periodEnd={entry.periodEnd} data={entry}></Entry>);
+			items.push(<Entry isPublic={this.isPublic} startColor={entry.startColor} endColor={entry.endColor} key={entry.id} periodStart={entry.periodStart} periodEnd={entry.periodEnd} data={entry}></Entry>);
 		});
 
 		return (

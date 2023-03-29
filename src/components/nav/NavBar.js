@@ -4,7 +4,20 @@ import { Link, Redirect } from 'react-router-dom';
 import Login from '../login/Login.js';
 import auth from '../../services/auth.js'
 
-
+function getPublicPathParameter(url) {
+    if (!url) {
+        return null;
+    }
+    const parts = url.split("/");
+    const publicIndex = parts.indexOf("public");
+    
+    if (publicIndex === -1) {
+      return null;
+    }
+    
+    return parts[publicIndex + 1];
+  }
+  
 
 class Logout extends Component {
 	constructor(props) {
@@ -42,19 +55,36 @@ class Logout extends Component {
 }
 
 
-function NavBar() {
+function NavBar(props) {
+    let publicUserId = getPublicPathParameter(props.location);
+
     return (
         <Navbar sticky="top">
-            { auth.isAuthenticated 
-            ? <Nav defaultActiveKey="journal">
-                <Nav.Link as={Link} eventKey="summaries" to={`/summaries/${auth.user.id}`}>Summaries</Nav.Link> 
+            <>
+            { !publicUserId && auth.isAuthenticated 
+            ? <Nav>
+                <NavDropdown title="Monthly" id="summaries-dropdown">
+                    <Nav.Link as={Link} eventKey="overviews" to={`/summaries/${auth.user.id}/default`}>Overviews</Nav.Link> 
+                    <Nav.Link as={Link} eventKey="haikus" to={`/summaries/${auth.user.id}/haiku`}>Haikus</Nav.Link> 
+                    <Nav.Link as={Link} eventKey="poetry" to={`/summaries/${auth.user.id}/poetry`}>Poems</Nav.Link> 
+                </NavDropdown>
                 <Nav.Link as={Link} eventKey="journal" to={`/journal/${auth.user.id}`}>Journal</Nav.Link> 
                 <Nav.Link as={Link} eventKey="settings" to={`/settings/${auth.user.id}`}>Settings</Nav.Link> 
                 <NavDropdown title={auth.user.first_name} id="user-dropdown">
                     <Logout></Logout>
                 </NavDropdown>
             </Nav>
-            : <Login></Login> }
+            : publicUserId 
+                ? <Nav>
+                    <NavDropdown title="Monthly" id="public-summaries-dropdown">
+                        <Nav.Link as={Link} eventKey="public-overviews" to={`/public/${publicUserId}/summaries/default`}>Overviews</Nav.Link> 
+                        <Nav.Link as={Link} eventKey="public-haikus" to={`/public/${publicUserId}/summaries/haiku`}>Haikus</Nav.Link> 
+                        <Nav.Link as={Link} eventKey="public-poetry" to={`/public/${publicUserId}/summaries/poetry`}>Poems</Nav.Link> 
+                    </NavDropdown>
+                    <Nav.Link as={Link} eventKey="public-journal" to={`/public/${publicUserId}/journal`}>Journal</Nav.Link> 
+                </Nav> 
+            : null }
+            </>
         </Navbar>
     )
 }
