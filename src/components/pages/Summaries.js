@@ -6,7 +6,7 @@ import { Row, Col, FormText } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import config from '../../services/config.js';
-import { CoffeeLoading } from 'react-loadingg';
+import { CoffeeLoading, LoopCircleLoading } from 'react-loadingg';
 import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
@@ -86,6 +86,7 @@ class Summaries extends Component {
 			summaries: [],
 			isDesc: this.props.match.params.order === "ASC" ? false : true,
 			hasMore: true,
+			publicUser: null,
 			color: {
 				r: 128,
 				g: 0,
@@ -149,6 +150,19 @@ class Summaries extends Component {
 		});
 	}
 
+	loadUser = () => {
+		axios.get(`${config.apiHost}/public/${this.props.match.params.userId}/`)
+			.then((resp) => {
+				this.setState({publicUser: resp.data});
+			});
+	}
+
+	componentDidMount() {
+		if (this.isPublic) {
+			this.loadUser();
+		}
+	}
+
 	render() {
 		var items = [];
 
@@ -159,6 +173,10 @@ class Summaries extends Component {
 		return (
 			<div key={this.props.match.params.style + this.state.isDesc}>
 				{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
+				{ !this.isPublic 
+					? <h3 style={{textAlign: "center", fontFamily: "'Playfair Display', serif", opacity:"70%"}}>This month, I...</h3> 
+					: this.state.publicUser && this.state.publicUser.first_name ? <h3 style={{textAlign: "center", fontFamily: "'Playfair Display', serif", opacity:"70%"}}>This month, {this.state.publicUser.first_name} {this.state.publicUser.last_name}...</h3> : null
+				}
 				<a style={{position: 'relative', left:'50%', marginBottom: "10px"}} onClick={()=>this.setState({isDesc: !this.state.isDesc, summaries: [], hasMore:true})}>
 					{this.state.isDesc ? <FontAwesomeIcon icon={faSortDown}/> : <FontAwesomeIcon icon={faSortUp}/> }
 				</a>
@@ -166,7 +184,7 @@ class Summaries extends Component {
 					pageStart={0}
 					loadMore={this.loadSummaries.bind(this)}
 					hasMore={this.state.hasMore}
-					loader={this.state.summaries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
+					loader={this.state.summaries.length > 0 ? <LoopCircleLoading size="small" style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
 				>
 					{items}
 				</InfiniteScroll>

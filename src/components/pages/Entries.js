@@ -6,7 +6,7 @@ import { Row, Col, FormText } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import config from '../../services/config.js';
-import { CoffeeLoading } from 'react-loadingg';
+import { CoffeeLoading, LoopCircleLoading } from 'react-loadingg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -118,9 +118,11 @@ class Entries extends Component {
 		super(props);
 		this.isPublic = this.props.location.pathname.includes("public");
 		this.url = !this.isPublic ? `${config.apiHost}/users/${this.props.match.params.userId}/entries/` : `${config.apiHost}/public/${this.props.match.params.userId}/entries/`;
+
 		this.state = {
 			isDesc: this.props.match.params.order === "ASC" ? false : true,
 			entries: [],
+			publicUser: null,
 			hasMore: true,
 			color: {
 				r: 0,
@@ -128,6 +130,13 @@ class Entries extends Component {
 				b: 181
 			}
 		};
+	}
+
+	loadUser = () => {
+		axios.get(`${config.apiHost}/public/${this.props.match.params.userId}/`)
+			.then((resp) => {
+				this.setState({publicUser: resp.data});
+			});
 	}
 
 	loadEntries = (pageNum) => {
@@ -197,6 +206,12 @@ class Entries extends Component {
 			});
 	}
 
+	componentDidMount() {
+		if (this.isPublic) {
+			this.loadUser();
+		}
+	}
+
 	render() {
 		var items = [];
 
@@ -207,6 +222,10 @@ class Entries extends Component {
 		return (
 			<div key={this.state.isDesc}>
 				{<CoffeeLoading style={{position: 'relative', left:'50%', marginBottom: "10px"}} /> }
+				{ !this.isPublic 
+					? <h3 style={{textAlign: "center", fontFamily: "'Playfair Display', serif", opacity:"70%"}}>Today, I...</h3> 
+					: this.state.publicUser && this.state.publicUser.first_name && <h3 style={{textAlign: "center", fontFamily: "'Playfair Display', serif", opacity:"70%"}}>Today, {this.state.publicUser.first_name} {this.state.publicUser.last_name}...</h3>
+				}
 				<a style={{position: 'relative', left:'50%', marginBottom: "10px"}} onClick={()=>this.setState({isDesc: !this.state.isDesc, entries: [], hasMore:true})}>
 					{this.state.isDesc ? <FontAwesomeIcon icon={faSortDown}/> : <FontAwesomeIcon icon={faSortUp}/> }
 				</a>
@@ -214,7 +233,7 @@ class Entries extends Component {
 					pageStart={0}
 					loadMore={this.loadEntries.bind(this)}
 					hasMore={this.state.hasMore}
-					loader={this.state.entries.length > 0 ? <CoffeeLoading style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
+					loader={this.state.entries.length > 0 ? <LoopCircleLoading size="small" style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
 				>
 					{items}
 				</InfiniteScroll>
