@@ -169,7 +169,7 @@ class Settings extends Component {
 											<option value="22">10 PM</option>
 											<option value="23">11 PM</option>
 										</select>
-										<select id="timezone" value={this.state.settings.time_zone} style={{maxWidth:"27%", border:"none", padding: "5px", background: "linear-gradient(to right, rgb(128, 0, 181), rgb(0, 128, 181))", color:"white"}} name='send_hour' onChange={(event) => this.handleChange(event.target.name, parseInt(event.target.value))}>
+										<select id="timezone" value={this.state.settings.time_zone} style={{maxWidth:"27%", border:"none", padding: "5px", background: "linear-gradient(to right, rgb(128, 0, 181), rgb(101, 20, 80)", color:"white"}} name='send_hour' onChange={(event) => this.handleChange(event.target.name, parseInt(event.target.value))}>
 											<option value="America/New_York">Eastern Time (ET)</option>
 											<option value="America/Chicago">Central Time (CT)</option>
 											<option value="America/Denver">Mountain Time (MT)</option>
