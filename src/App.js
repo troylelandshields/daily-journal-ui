@@ -14,6 +14,8 @@ import Summaries from './components/pages/Summaries.js';
 import './App.css';
 import config from './services/config';
 import auth from './services/auth';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Component = Radium(Component);
 class App extends Component {
@@ -22,6 +24,9 @@ class App extends Component {
       <Container>
         <StripeProvider apiKey={config.stripeKey}>
             <div>
+                <ToastContainer
+
+                />
                 <NavBar location={window.location.href}></NavBar>
                 <PrivateRoute path="/journal/:userId" component={Entries} />  
                 <PrivateRoute path="/summaries/:userId/:style" component={Summaries} />
