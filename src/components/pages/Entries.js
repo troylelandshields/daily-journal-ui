@@ -233,7 +233,7 @@ class Entries extends Component {
 					pageStart={0}
 					loadMore={this.loadEntries.bind(this)}
 					hasMore={this.state.hasMore}
-					loader={this.state.entries.length > 0 ? <LoopCircleLoading size="small" style={{position: 'relative', left:'50%', marginTop:"20px"}} /> : null}
+					loader={<LoopCircleLoading size="small" style={{position: 'relative', left:'50%', marginTop:"20px"}} /> }
 				>
 					{items}
 				</InfiniteScroll>
