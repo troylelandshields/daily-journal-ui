@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import Login from '../login/Login.js';
-import auth from '../../services/auth.js'
+import {AuthContext} from '../../services/auth.js'
 import config from '../../services/config.js';
 
 function getPublicPathParameter(url) {
@@ -18,49 +18,37 @@ function getPublicPathParameter(url) {
     }
     
     return parts[publicIndex + 1];
-  }
-  
-
-class Logout extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			redirect: false
-		};
-    }
-    
-    logout = () => {
-        auth.signout(() => {
-            this.setState({
-                redirect: true
-            });
-        });
-        
-    }
-
-    renderRedirect = () => {
-        if (this.state.redirect) {
-            return <Redirect to='/' />
-        }
-    }
-
-	render() {
-		return (
-            <div>
-                {this.renderRedirect()}
-                <NavDropdown.Item onSelect={this.logout}>
-                    Logout
-                </NavDropdown.Item>
-            </div>
-		);
-	}
 }
 
+function Logout() {
+    const [redirect, setRedirect] = useState(false);
+    const auth = useContext(AuthContext);
+  
+    const logout = () => {
+      auth.signout(() => {
+        setRedirect(true);
+      });
+    };
+  
+    const renderRedirect = () => {
+      if (redirect) {
+        return <Redirect to="/" />;
+      }
+    };
+  
+    return (
+      <div>
+        {renderRedirect()}
+        <NavDropdown.Item onSelect={logout}>Logout</NavDropdown.Item>
+      </div>
+    );
+}
 
 function NavBar(props) {
     let publicUserId = getPublicPathParameter(props.location);
     
     const [publicUser, setPublicUser] = useState(null);
+    const auth = useContext(AuthContext);
 
     const loadUser = () => {
 		axios.get(`${config.apiHost}/public/${publicUserId}/`)

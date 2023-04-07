@@ -13,9 +13,9 @@ import Login from './components/login/Login.js';
 import Summaries from './components/pages/Summaries.js';
 import './App.css';
 import config from './services/config';
-import auth from './services/auth';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 // Component = Radium(Component);
 class App extends Component {
@@ -25,7 +25,6 @@ class App extends Component {
         <StripeProvider apiKey={config.stripeKey}>
             <div>
                 <ToastContainer
-
                 />
                 <NavBar location={window.location.href}></NavBar>
                 <PrivateRoute path="/journal/:userId" component={Entries} />  
@@ -36,10 +35,6 @@ class App extends Component {
                 <Route path="/public/:userId/summaries/:style" component={Summaries} />
 
                 <Route exact path="/" component={Home}></Route> 
-                
-                  {/* { auth.isAuthenticated && auth.isSetUp() ? <Redirect to={{pathname: `/journal/${auth.user.id}`, query:"1=1"}} /> : 
-                    auth.isAuthenticated && !auth.isSetUp() ? <Redirect to={`/settings/${auth.user.id}`} /> : 
-                    null  }  */}
             </div>
           
         </StripeProvider>

@@ -5,7 +5,6 @@ import {
   } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
-import auth from '../../services/auth.js';
 
 function Home(props) {
 	
