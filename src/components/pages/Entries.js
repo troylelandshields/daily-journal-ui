@@ -125,9 +125,9 @@ class Entries extends Component {
 			publicUser: null,
 			hasMore: true,
 			color: {
-				r: 0,
-				g: 128,
-				b: 181
+				r: 1,//0,
+				g: 5,//128,
+				b: 54//181
 			}
 		};
 	}

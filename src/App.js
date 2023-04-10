@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Radium from 'radium';
 import { Container } from 'react-bootstrap';
 import { Redirect, Route } from 'react-router-dom';
@@ -15,17 +15,28 @@ import './App.css';
 import config from './services/config';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {AuthContext} from './services/auth';
 
 
 // Component = Radium(Component);
-class App extends Component {
-  render() {
-    return (
+function App() {
+  const [backgroundColor, setBackgroundColor] = useState("#010536");
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      setBackgroundColor("white");
+    } else {
+      setBackgroundColor("#010536");
+    }
+  }, [auth, auth.isAuthenticated]);
+
+  return (
+    <div style={{ backgroundColor: backgroundColor, height: "100%", minHeight: "100vh", width: "100%", minWidth: "100vw" }}>
       <Container>
         <StripeProvider apiKey={config.stripeKey}>
             <div>
-                <ToastContainer
-                />
+                <ToastContainer/>
                 <NavBar location={window.location.href}></NavBar>
                 <PrivateRoute path="/journal/:userId" component={Entries} />  
                 <PrivateRoute path="/summaries/:userId/:style" component={Summaries} />
@@ -39,8 +50,8 @@ class App extends Component {
           
         </StripeProvider>
       </Container>
-    );
-  }
+    </div>
+  );
 }
 
 export default Radium(App);
