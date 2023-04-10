@@ -47,7 +47,6 @@ function App() {
 
                 <Route exact path="/" component={Home}></Route> 
             </div>
-          
         </StripeProvider>
       </Container>
     </div>

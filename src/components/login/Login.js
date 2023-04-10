@@ -4,9 +4,10 @@ import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import {AuthContext} from '../../services/auth.js';
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from 'react-toastify';
 
 const Login = () => {
-  const { loginWithRedirect  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently  } = useAuth0();
   const [dst, setDst] = useState("");
   const auth = useContext(AuthContext);
 
@@ -20,15 +21,29 @@ const Login = () => {
     document.getElementById("pricing-table-container").appendChild(pricingTable);
 
     return () => {
+      if (!document.getElementById("pricing-table-container")) {
+        return;
+      }
       document.getElementById("pricing-table-container").innerHTML = "";
     };
-  }, []);
+  }, [auth, auth.isAuthenticated]);
 
   useEffect(() => {
     if (auth.isAuthenticated && auth.isSetUp) {
       setDst(`/journal/${auth.user.id}`);
     } else if (auth.isAuthenticated && !auth.isSetUp) {
-      setDst(`/settings/${auth.user.id}`);
+      // TODO: this logic isn't working quite right
+      toast.error("I'm sorry, there was no active subscription found for that login. Sign up below or try signing in with the correct login.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        onClose: auth.signout()
+      });
+      
     }
   }, [auth, auth.isAuthenticated]);
 

@@ -51,6 +51,8 @@ const useAuth = () => {
           // store token
           window.localStorage.setItem('token', token);
           window.localStorage.setItem('authProvider', "auth0");
+          authenticateAuth0(token, cb);
+          return;
         }
         authenticateAuth0(storedToken, cb);
         return;
