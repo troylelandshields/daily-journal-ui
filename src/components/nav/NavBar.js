@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Login from '../login/Login.js';
 import {AuthContext} from '../../services/auth.js'
 import config from '../../services/config.js';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function getPublicPathParameter(url) {
     if (!url) {
@@ -23,11 +24,12 @@ function getPublicPathParameter(url) {
 function Logout() {
     const [redirect, setRedirect] = useState(false);
     const auth = useContext(AuthContext);
+    const {logout} = useAuth0();
   
-    const logout = () => {
-      auth.signout(() => {
-        setRedirect(true);
-      });
+    const doLogout = () => {
+        auth.signout(logout, () => {
+            setRedirect(true);
+        });
     };
   
     const renderRedirect = () => {
@@ -39,7 +41,7 @@ function Logout() {
     return (
       <div>
         {renderRedirect()}
-        <NavDropdown.Item onSelect={logout}>Logout</NavDropdown.Item>
+        <NavDropdown.Item onSelect={doLogout}>Logout</NavDropdown.Item>
       </div>
     );
 }

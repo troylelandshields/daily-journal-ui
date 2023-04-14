@@ -67,12 +67,20 @@ const useAuth = () => {
       }
     };
   
-    const signout = (cb) => {
+    const signout = (auth0Logout, cb) => {
       console.log('bye now!');
-      setIsAuthenticated(false);
-      setUser({});
+      const authProvider = window.localStorage.getItem('authProvider') || "google";
+
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('authProvider');
+      setIsAuthenticated(false);
+      setUser({});
+
+      if (authProvider === "auth0" && auth0Logout) {
+        auth0Logout({
+          returnTo: "https://todayi.page",
+        });
+      }
   
       if (cb) cb();
     };
