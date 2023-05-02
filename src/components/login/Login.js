@@ -5,11 +5,40 @@ import axios from 'axios';
 import {AuthContext} from '../../services/auth.js';
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from 'react-toastify';
+import { Row, Col } from 'react-bootstrap';
 
 const Login = () => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently  } = useAuth0();
   const [dst, setDst] = useState("");
   const auth = useContext(AuthContext);
+
+  const examples = [
+    {
+      title: "Football Coach",
+      src: "football_coach.png"
+    },
+    {
+      title: "Obsessed with Cats",
+      src: "cat_facts.png"
+    },
+    {
+      title: "Overbearing Mother-in-Law",
+      src: "mother-in-law.png"
+    },
+    {
+      title: "Valley Girl",
+      src: "valley_girl.png"
+    },
+  ];
+
+  const [exampleIdx, setExampleIdx] = useState(0);
+  const cycleExample = () => {
+    if (exampleIdx === examples.length - 1) {
+      setExampleIdx(0);
+      return
+    }
+    setExampleIdx(exampleIdx+1);
+  }
 
   useEffect(() => {
     if (!document.getElementById("pricing-table-container")) {
@@ -97,8 +126,23 @@ const Login = () => {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '0px'}}>
           <img src="/logo-color.png" style={{}} width="500px"></img>
-          <p style={{color:"white", width:"80%", marginBottom:"8px", textAlign:"center"}}>Get a daily text to prompt you to journal about your day. Reflect on the events, emotions, and experiences that shape your life and give you a new perspective on what's important.</p>
+          <h3 style={{color:"white", width:"80%", textAlign:"center", opacity:"30%"}}>powered by AI</h3>
+          <p style={{color:"white", width:"80%", marginBottom:"8px", textAlign:"center"}}>Get a daily text to prompt you to journal about your day. Reflect on the events, emotions, and experiences that shape your life and give you a new perspective on what's important. Ask questions about your past and get helpful answers.</p>
+          
+          {/* <Row>
+            <Col>Hello</Col>
+            <Col ></Col>
+          </Row> */}
           <div id="pricing-table-container" style={{width:"90%", marginBottom:"30px"}}></div>
+
+          <div style={{marginBottom:"30px", textAlign:"center"}} onClick={cycleExample}>
+            <h2 style={{color:"white",textAlign:"center", opacity:"60%"}}>Examples</h2>
+            <h4 style={{color:"white", textAlign:"center", opacity:"30%"}}>{examples[exampleIdx].title}</h4>
+            <div style={{maxHeight: "500px", overflow:"hidden", overflowY: "scroll", alignItems: 'center', textAlign: "center"}}>
+              <img src={examples[exampleIdx].src} width="80%"></img>
+            </div>
+            <span style={{color:"white", textAlign:"center", opacity:"100%"}}>Click for Next</span>
+          </div>
         </div>
       </>
     )
