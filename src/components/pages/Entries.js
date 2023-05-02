@@ -120,7 +120,7 @@ class Entries extends Component {
 		this.url = !this.isPublic ? `${config.apiHost}/users/${this.props.match.params.userId}/entries/` : `${config.apiHost}/public/${this.props.match.params.userId}/entries/`;
 
 		this.state = {
-			isDesc: this.props.match.params.order === "ASC" ? false : true,
+			isDesc: this.props.location.search.indexOf("order=ASC") >= 0 ? false : true,
 			entries: [],
 			publicUser: null,
 			hasMore: true,

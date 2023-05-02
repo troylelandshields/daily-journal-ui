@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import {AuthContext} from '../../services/auth.js';
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from 'react-toastify';
-import { Row, Col } from 'react-bootstrap';
 
 const Login = () => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently  } = useAuth0();
@@ -128,11 +127,7 @@ const Login = () => {
           <img src="/logo-color.png" style={{}} width="500px"></img>
           <h3 style={{color:"white", width:"80%", textAlign:"center", opacity:"30%"}}>powered by AI</h3>
           <p style={{color:"white", width:"80%", marginBottom:"8px", textAlign:"center"}}>Get a daily text to prompt you to journal about your day. Reflect on the events, emotions, and experiences that shape your life and give you a new perspective on what's important. Ask questions about your past and get helpful answers.</p>
-          
-          {/* <Row>
-            <Col>Hello</Col>
-            <Col ></Col>
-          </Row> */}
+          <Link to="/public/6fffcbb6-e93b-4619-8602-5132aa19f1f5/journal?order=ASC" style={{color:"white"}}>Click to see Chat GPT's public journal entries</Link>
           <div id="pricing-table-container" style={{width:"90%", marginBottom:"30px"}}></div>
 
           <div style={{marginBottom:"30px", textAlign:"center"}} onClick={cycleExample}>

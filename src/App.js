@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Radium from 'radium';
 import { Container } from 'react-bootstrap';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, withRouter } from 'react-router-dom';
 import {StripeProvider} from 'react-stripe-elements';
 
 import PrivateRoute from './components/login/PrivateRoute';
@@ -31,6 +31,14 @@ function App() {
     }
   }, [auth, auth.isAuthenticated]);
 
+  useEffect(() => {
+    if (auth.isAuthenticated || window.location.pathname.indexOf("public") > 0) {
+      setBackgroundColor("white");
+    } else {
+      setBackgroundColor("#010536");
+    }
+  });
+
   return (
     <div style={{ backgroundColor: backgroundColor, height: "100%", minHeight: "100vh", width: "100%", minWidth: "100vw" }}>
       <Container>
@@ -53,4 +61,4 @@ function App() {
   );
 }
 
-export default Radium(App);
+export default Radium(withRouter(App));
