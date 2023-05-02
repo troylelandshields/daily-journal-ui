@@ -101,9 +101,9 @@ function Entry(props) {
 	return (
 		!deleted ? <Row>
 			<Col md={2} mdOffset={2} sm={2} smOffset={2} style={dateInfoStyle}>
-				<Row><Col><Moment format="YYYY/MM/DD">{props.data.date}</Moment></Col></Row>
-				<Row><Col><Moment style={{opacity: "50%"}} format="dddd">{props.data.date}</Moment></Col></Row>
-				<Row><Col><Moment style={{opacity: "50%"}} fromNow>{props.data.date}</Moment></Col></Row>
+				<Row><Col><Moment format="YYYY/MM/DD">{props.data.date.split("T")[0]}</Moment></Col></Row>
+				<Row><Col><Moment style={{opacity: "50%"}} format="dddd">{props.data.date.split("T")[0]}</Moment></Col></Row>
+				<Row><Col><Moment style={{opacity: "50%"}} fromNow>{props.data.date.split("T")[0]}</Moment></Col></Row>
 			</Col>  
 			<Col style={entryColStyle}>
 				<div style={entryStyle}>{props.data.entry}</div>

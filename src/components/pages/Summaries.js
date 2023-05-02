@@ -67,7 +67,7 @@ function Summary(props) {
 	return (
 		<Row>
 			<Col md={2} mdOffset={2} sm={2} smOffset={2} style={dateInfoStyle}>
-				<Row><Col><Moment format="MMM YYYY">{props.data.start_date}</Moment></Col></Row>
+				<Row><Col><Moment format="MMM YYYY">{props.data.start_date.split("T")[0]}</Moment></Col></Row>
 			</Col>  
 			<Col style={entryColStyle}>
 				{props.data.summary ? <div style={entryStyle}>{props.data.summary.trim()}</div> : <CoffeeLoading />}
